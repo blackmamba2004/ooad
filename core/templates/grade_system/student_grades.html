@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Выставление оценок{% endblock %}
+
+{% block content  %}
+<h2>Student Grades</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Группа</th>
+                <th>Дисциплина</th>
+                <th>Студент</th>
+                <th>Оценка</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    {% for col in row %}
+                        {% if forloop.counter == 4 %}
+                            <td><input type="text" value="{{ col }}"></td>
+                        
+                        {% else %}
+                            <td>{{ col }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
