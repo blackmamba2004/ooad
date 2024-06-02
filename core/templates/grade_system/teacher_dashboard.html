@@ -1,88 +1,23 @@
-{#<!DOCTYPE html>#}
-{#<html>#}
-{#<head>#}
-{#    <title>Teacher Dashboard</title>#}
-{##}
-{#</head>#}
-{#<body>#}
-{#    <h1>Преподавательская панель</h1>#}
-{#    <ul>#}
-{#        {% for item in disciplines_with_groups %}#}
-{#            <li>#}
-{#                {{ item.discipline.title }}#}
-{#                <ul>#}
-{#                    {% for group in item.groups %}#}
-{#                        <li><a href="{% url 'grade_system:group_detail' group.id %}">{{ group.name }}</a></li>#}
-{#                    {% endfor %}#}
-{#                </ul>#}
-{#            </li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-{#</body>#}
-{#</html>#}
+{% extends "main_base.html" %}
 
-
-{##}
-{#<!DOCTYPE html>#}
-{#<html>#}
-{#<head>#}
-{#    <title>Teacher Dashboard</title>#}
-{#    <style>#}
-{#        .groups {#}
-{#            display: none;#}
-{#        }#}
-{#    </style>#}
-{#    <script>#}
-{#        function toggleGroups(disciplineId) {#}
-{#            var groups = document.getElementById('groups-' + disciplineId);#}
-{#            if (groups.style.display === 'none') {#}
-{#                groups.style.display = 'block';#}
-{#            } else {#}
-{#                groups.style.display = 'none';#}
-{#            }#}
-{#        }#}
-{#    </script>#}
-{#</head>#}
-{#<body>#}
-{#    <h1>Преподавательская панель</h1>#}
-{#    <ul>#}
-{#        {% for item in disciplines_with_groups %}#}
-{#            <li>#}
-{#                <a href="javascript:void(0)" onclick="toggleGroups('{{ item.discipline.id }}')">{{ item.discipline.title }}</a>#}
-{#                <ul id="groups-{{ item.discipline.id }}" class="groups">#}
-{#                    {% for group in item.groups %}#}
-{#                        <li><a href="{% url 'grade_system:group_detail' group.id %}">{{ group.name }}</a></li>#}
-{#                    {% endfor %}#}
-{#                </ul>#}
-{#            </li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-{#</body>#}
-{#</html>#}
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Teacher Dashboard</title>
-</head>
-<body>
-    <h1>Преподавательская панель</h1>
-    <ul>
-        {% for item in disciplines_with_groups %}
-            <li>
-                {{ item.discipline.title }}
-                <ul>
-                    {% for group in item.groups %}
-                        <li>
-                            <a href="{% url 'grade_system:group_detail' group.id %}?discipline_id={{ item.discipline.id }}">
-                                {{ group.name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% block content %}
+    <div class="dashboard-container">
+        <h1>Преподавательская панель</h1>
+        <ul class="discipline-list">
+            {% for item in disciplines_with_groups %}
+                <li class="discipline-item">
+                    <div class="discipline-title">{{ item.discipline.title }}</div>
+                    <ul class="group-list">
+                        {% for group in item.groups %}
+                            <li class="group-item">
+                                <a href="{% url 'grade_system:group_detail' group.id %}?discipline_id={{ item.discipline.id }}" class="group-link">
+                                    {{ group.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

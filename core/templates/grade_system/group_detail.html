@@ -1,22 +1,10 @@
-{#<!-- grade_system/templates/grade_system/group_detail.html -->#}
-{#<!DOCTYPE html>#}
-{#<html>#}
-{#<head>#}
-{#    <title>Group Details</title>#}
-{#</head>#}
-{#<body>#}
-{#    <h1>Детали группы: {{ group.name }}</h1>#}
-{#    <p>Семестр: {{ group.semester }}</p>#}
-{#    <p>Специальность: {{ group.speciality.name }}</p>#}
-{#</body>#}
-{#</html>#}
-
-{% extends "base.html" %}
+{% extends "main_base.html" %}
 
 {% block title %}Выставление оценок{% endblock %}
 
 {% block content %}
-<h2>Student Grades</h2>
+<div class="grade-container">
+    <h2>Успеваемость</h2>
     <form method="POST">
         {% csrf_token %}
         <table>
@@ -36,16 +24,15 @@
                         <td>{{ item.student.name }}</td>
                         <td>
                             <input type="text" name="grade_{{ item.student.id }}"
-                                   value="{{ item.grade.score }}" {% if item.grade is None %}placeholder="Нет оценки"{% endif %}>
+                                   value="{{ item.grade.score }}" {% if item.grade is None %}
+                                   placeholder="Нет оценки"{% endif %}>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <button type="submit">Сохранить изменения</button>
+        <button type="submit" class="btn-submit">Сохранить изменения</button>
     </form>
-
-    <a href="{% url 'grade_system:teacher_dashboard' %}">Назад к панели преподавателя</a>
+    <a href="{% url 'grade_system:teacher_dashboard' %}" class="btn-back">Назад к панели преподавателя</a>
+</div>
 {% endblock %}
-
-

@@ -90,31 +90,6 @@ def teacher_dashboard(request):
     return render(request, 'grade_system/teacher_dashboard.html', {'disciplines_with_groups': disciplines_with_groups})
 
 
-# @login_required
-# def group_detail(request, pk):
-#     group = get_object_or_404(Group, pk=pk)
-#     discipline_id = request.GET.get('discipline_id')
-#     discipline = get_object_or_404(Discipline, pk=discipline_id)
-#
-#     students = Student.objects.filter(group=group).prefetch_related(
-#         Prefetch('grade_set', queryset=Grade.objects.filter(teacher_discipline__speciality_discipline__discipline=discipline))
-#     )
-#
-#     student_grades = []
-#     for student in students:
-#         grade = student.grade_set.first()
-#         student_grades.append({
-#             'student': student,
-#             'grade': grade
-#         })
-#
-#     return render(request, 'grade_system/group_detail.html', {
-#         'group': group,
-#         'discipline': discipline,
-#         'students': student_grades
-#     })
-
-
 @login_required
 def group_detail(request, pk):
     group = get_object_or_404(Group, pk=pk)
@@ -151,3 +126,11 @@ def group_detail(request, pk):
         'discipline': discipline,
         'students': student_grades
     })
+
+
+def main_page(request):
+    return render(request, 'grade_system/main.html')
+
+
+def technologies_stack(request):
+    return render(request, 'grade_system/technologies_stack.html')

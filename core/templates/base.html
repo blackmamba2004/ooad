@@ -3,10 +3,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{{% block title %}My Site{% endblock %}</title>
+        <title>{{% block title %}{% endblock %}</title>
         <link href="{% static 'css/grade_system.css' %}" rel="stylesheet">
     </head>
     <body>
+
+        {% block content %}{% endblock %}
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -14,6 +16,5 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        {% block content %}{% endblock %}
     </body>
 </html>
