@@ -1,11 +1,16 @@
 from django.contrib import admin
 
 from .models import (Teacher, Speciality, Discipline, Group, Student, Grade,
-                     Teacher_Discipline, Speciality_Discipline)
+                     Teacher_Discipline, Speciality_Discipline, Accountant)
 
 
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
+    list_display = ['id', 'full_name']
+
+
+@admin.register(Accountant)
+class AccountantAdmin(admin.ModelAdmin):
     list_display = ['id', 'full_name']
 
 
@@ -16,7 +21,7 @@ class SpecialityAdmin(admin.ModelAdmin):
 
 @admin.register(Discipline)
 class DisciplineAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title']
+    list_display = ['id', 'title', 'is_credit']
 
 
 @admin.register(Group)

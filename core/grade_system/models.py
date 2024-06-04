@@ -1,8 +1,17 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
-# from django.contrib.auth.models import User
 from django.db.models import OneToOneField
 from django.conf import settings
+
+
+class Accountant(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=100)
+
+    class Meta:
+        db_table = 'accountant'
+
+    def __str__(self):
+        return f'{self.full_name}'
 
 
 class Teacher(models.Model):
@@ -27,16 +36,6 @@ class Speciality(models.Model):
         KB = 'КБ', 'Компьютерная безопасность'
         AS = 'АС', 'Безопасность автоматизированных систем'
 
-    # codes = (
-    #     ('09.03.04', 'Программная инженерия'),
-    #     ('09.03.03', 'Прикладная информатика'),
-    #     ('09.03.01', 'Информатика и вычислительная техника'),
-    #     ('10.03.01', 'Информационная безопасность'),
-    #     ('27.03.04', 'Управление в технических системах'),
-    #     ('10.05.01', 'Компьютерная безопасность'),
-    #     ('10.05.03', 'Безопасность автоматизированных систем')
-    # )
-
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=2, choices=Status.choices)
     code = models.CharField(max_length=10)
@@ -54,6 +53,7 @@ class Discipline(models.Model):
 
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
+    is_credit = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'discipline'
@@ -68,7 +68,6 @@ class Group(models.Model):
     name = models.CharField(max_length=20, unique=True)
     semester = models.IntegerField(default=1)
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE)
-    # curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'group'
@@ -82,8 +81,8 @@ class Student(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
     name = models.CharField(max_length=100)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-
-    objects = models.Manager()
+    scholarship_coefficient = models.FloatField(default=1.0)
+    scholarship = models.FloatField(default=0.0)
 
     class Meta:
         db_table = 'student'
@@ -116,14 +115,10 @@ class CDManager(models.Manager):
 class Speciality_Discipline(models.Model):
 
     id = models.AutoField(primary_key=True)
-    # curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE)
     discipline = models.ForeignKey(Discipline, on_delete=models.CASCADE)
     semester = models.PositiveSmallIntegerField()
     active = models.BooleanField(default=False)
     speciality = models.ForeignKey(Speciality, on_delete=models.CASCADE)
-
-    taked = CDManager()
-    objects = models.Manager()
 
     class Meta:
         db_table = 'speciality_discipline'
@@ -150,10 +145,15 @@ class Grade(models.Model):
     id = models.AutoField(primary_key=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     teacher_discipline = models.ForeignKey(Teacher_Discipline, on_delete=models.CASCADE)
-    score = models.PositiveSmallIntegerField()
+    score = models.PositiveSmallIntegerField(null=True, blank=True)
 
     class Meta:
         db_table = 'grade'
 
+    def is_passed(self):
+        return self.score == 5
+
     def __str__(self):
         return f'{self.score}'
+
+

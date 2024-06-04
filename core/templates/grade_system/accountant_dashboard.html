@@ -1,0 +1,55 @@
+{% extends "main_base.html" %}
+
+{% block content %}
+    <div class="dashboard-container">
+        <h1>Бухгалтерская панель</h1>
+
+        <!-- Форма для расчета коэффициентов стипендий -->
+        <form method="post" action="{% url 'grade_system:calculate_coefficients' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-submit">Рассчитать коэффициенты</button>
+        </form>
+
+        <!-- Форма для ввода базовой стипендии и расчета итоговой стипендии -->
+        <form method="post" action="{% url 'grade_system:calculate_scholarship' %}">
+            {% csrf_token %}
+            <label for="base_scholarship">Базовая стипендия (руб):</label>
+            <input type="number" class="base_scholarship" name="base_scholarship">
+            <button type="submit" class="btn-submit">Рассчитать стипендию</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Студент</th>
+                    <th>Группа</th>
+                    <th>Коэффициент стипендии</th>
+                    <th>Стипендия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.group.name }}</td>
+                        <td>{{ student.scholarship_coefficient }}</td>
+                        <td>{{ student.scholarship }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .base_scholarship {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+</style>
+{% endblock %}

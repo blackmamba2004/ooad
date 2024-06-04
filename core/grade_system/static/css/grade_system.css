@@ -242,3 +242,34 @@ input[type="text"] {
 .btn-back:hover {
     background-color: #5a6268;
 }
+
+.hidden {
+    display: none;
+}
+
+.skills-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.skills-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.skill-item {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.skill-item p {
+    margin: 0;
+}
+

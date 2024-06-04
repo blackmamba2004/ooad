@@ -13,7 +13,11 @@
                     <th>Группа</th>
                     <th>Дисциплина</th>
                     <th>Студент</th>
-                    <th>Оценка</th>
+                    {% if discipline.is_credit %}
+                        <th>Зачет</th>
+                    {% else %}
+                        <th>Оценка</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -23,9 +27,11 @@
                         <td>{{ discipline.title }}</td>
                         <td>{{ item.student.name }}</td>
                         <td>
-                            <input type="text" name="grade_{{ item.student.id }}"
-                                   value="{{ item.grade.score }}" {% if item.grade is None %}
-                                   placeholder="Нет оценки"{% endif %}>
+                            {% if discipline.is_credit %}
+                                <input type="checkbox" name="grade_{{ item.student.id }}" {% if item.is_passed %}checked{% endif %} class="grade-input">
+                            {% else %}
+                                <input type="text" name="grade_{{ item.student.id }}" value="{{ item.grade.score }}" width=50px>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
