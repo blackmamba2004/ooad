@@ -107,11 +107,6 @@ class Student(models.Model):
         return f'{self.id}, {self.name}'
 
 
-class CDManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(active=True)
-
-
 class Speciality_Discipline(models.Model):
 
     id = models.AutoField(primary_key=True)

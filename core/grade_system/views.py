@@ -4,7 +4,6 @@ from django.db.models import Prefetch, Subquery, FloatField
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from .forms import LoginForm
-from django.db import connection, models
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .models import Teacher, Discipline, Group, Student, Grade, Teacher_Discipline, Accountant
